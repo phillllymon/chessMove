@@ -340,6 +340,7 @@
                     break;
                 }
                 $occupant = $gameData->grid[$dest[0]][$dest[1]];
+
                 if ($occupant == "-") {
                     array_push($moves, [$pos, $dest]);
                 } else if (in_array($occupant, $enemies)) {

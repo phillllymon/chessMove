@@ -28,6 +28,7 @@
         }
 
         $moveToReturn = $allMoves[rand(0, count($allMoves) - 1)];
+
         return $moveToReturn;
     }
 
@@ -102,8 +103,8 @@
         }
         $gameState .= $gameData->turn;
         $gameState .= implode("", $gameData->canCastle);
-        if (isset($gameData->enPassant)) {
-            $gameState .= implode($gameData->enPassant);
+        if (isset($gameData->enPassant) && $gameData->enPassant != false) {
+            $gameState .= implode("", $gameData->enPassant);
         }
 
         return $gameState;
@@ -188,6 +189,7 @@
     }
 
     function makeMove($gameData, $move) {
+
         $origin = $move[0];
         $dest = $move[1];
         if (isset($move[2])) { // special move
@@ -243,22 +245,22 @@
             }
 
             // check for moving from rooks' starting positions
-            if ($origin[0] = 0) {
+            if ($origin[0] == 0) {
                 if ($origin[1] == 0) {
                     $gameData->canCastle[0] = 0;
                 }
             }
-            if ($origin[0] = 0) {
+            if ($origin[0] == 0) {
                 if ($origin[1] == 7) {
                     $gameData->canCastle[1] = 0;
                 }
             }
-            if ($origin[0] = 7) {
+            if ($origin[0] == 7) {
                 if ($origin[1] == 0) {
                     $gameData->canCastle[2] = 0;
                 }
             }
-            if ($origin[0] = 7) {
+            if ($origin[0] == 7) {
                 if ($origin[1] == 7) {
                     $gameData->canCastle[3] = 0;
                 }
