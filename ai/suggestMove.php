@@ -3,6 +3,7 @@
     include_once("ai/util/getPiecePoints.php");
     include_once("ai/util/arrayRemovePos.php");
     include_once("ai/util/kingInCheck.php");
+    include_once("ai/util/insufficientMaterial.php");
     include_once("ai/util/deepCopy.php");
 
     // gameState should be 1 long string
@@ -17,6 +18,10 @@
     }
 
     function getRandomMove($gameData) {
+        if (insufficientMaterial($gameData)) {
+            return "stalemate";
+        }
+
         $allMoves = getAllMoves($gameData);
 
         if (count($allMoves) == 0) {
