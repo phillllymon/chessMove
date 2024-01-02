@@ -133,6 +133,23 @@
             }
         }
 
+        // check for pawn attack
+        $dir = 1;
+        $enemy = "P";
+        if ($color == "b") {
+            $dir = -1;
+            $enemy = "p";
+        }
+        foreach([
+            [$dir, 1],
+            [$dir, -1]
+        ] as $step) {
+            $enemyPos = [$kingPos[0] + $step[0], $kingPos[1] + $step[1]];
+            if ($gameData->grid[$enemyPos[0]][$enemyPos[1]] == $enemy) {
+                return true;
+            }
+        }
+
         return false;
     }
 
