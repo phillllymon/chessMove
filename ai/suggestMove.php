@@ -4,22 +4,23 @@
     include_once("ai/util/arrayRemovePos.php");
     include_once("ai/util/kingInCheck.php");
     include_once("ai/util/insufficientMaterial.php");
+    include_once("ai/recursiveChooseMove.php");
     include_once("ai/util/deepCopy.php");
 
     // gameState should be 1 long string
-    function suggestMoveAndReturnString($gameState) {
+    function suggestMoveAndReturnString($gameState, $level = 2) {
         $gameData = unpackString($gameState);
-        $move = getRandomMove($gameData);
-        if ($move == "w is checkmated" || $move == "b is checkmated" || $move == "stalemate") {
-            return $move;
+        $move = getMove($gameData, $level);
+        if ($move == "w is checkmated" || $move == "b is checkmated" || $move == "stalemate" || $move == "insufficient") {
+            return [$move];
         } else {
-            return makeMoveAndReturnString($gameState, $move);
+            return [makeMoveAndReturnString($gameState, $move), $gameData->score];
         }
     }
 
-    function getRandomMove($gameData) {
+    function getMove($gameData, $level) {
         if (insufficientMaterial($gameData)) {
-            return "stalemate";
+            return "insufficient";
         }
 
         $allMoves = getAllMoves($gameData);
@@ -32,7 +33,13 @@
             }
         }
 
-        $moveToReturn = $allMoves[rand(0, count($allMoves) - 1)];
+        // $moveToReturn = $allMoves[rand(0, count($allMoves) - 1)];
+        $moveToReturn = recursiveChooseMove($gameData, $allMoves, $level);
+
+        // temp
+        // makeMove($gameData, $moveToReturn);
+        // return [$moveToReturn, $gameData->score];
+        // end temp
 
         return $moveToReturn;
     }
@@ -193,7 +200,7 @@
         return $grid;
     }
 
-    function makeMove($gameData, $move) {
+    function makeMove($gameData, $move, $checkEndgame = false) {
 
         $origin = $move[0];
         $dest = $move[1];
@@ -280,6 +287,7 @@
                 $gameData->enPassant = false;
             }
 
+            // actual move
             $gameData->grid[$dest[0]][$dest[1]] = $gameData->grid[$origin[0]][$origin[1]];
             $gameData->grid[$origin[0]][$origin[1]] = "-";
         }
@@ -288,6 +296,41 @@
         } else {
             $gameData->turn = "w";
         }
+
+        // check for endgame
+        if ($checkEndgame) {
+            if (!gameHasMoves($gameData)) {
+                $gameData->gameOver = true;
+                if (kingInCheck($gameData, $gameData->turn)) {
+                    if ($gameData->turn == "w") {
+                        $gameData->score = -1000;
+                    } else {
+                        $gameData->score = 1000;
+                    }
+                } else {
+                    $gameData->score = 0;
+                }
+            }
+        }
+    }
+
+    function gameHasMoves($gameData) {
+        // return count(getAllMoves($gameData)) > 0; // << this is slow, better below
+        $friends = ["p", "r", "n", "b", "q", "k"];
+        if ($gameData->turn == "b") {
+            $friends = ["P", "R", "N", "B", "Q", "K"];
+        }
+
+        for ($i = 0; $i < 8; $i++) {
+            for ($j = 0; $j < 8; $j++) {
+                if (in_array($gameData->grid[$i][$j], $friends)) {
+                    if (count(getPieceMovesFromPos($gameData, [$i, $j])) > 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 ?>

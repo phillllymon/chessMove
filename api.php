@@ -14,7 +14,26 @@
         die();
     }
 
-    $response->next = suggestMoveAndReturnString($inputs->gameState);
+
+    // $next = suggestMoveAndReturnString($inputs->gameState);
+
+    // temp
+    $data = suggestMoveAndReturnString($inputs->gameState, $inputs->level);
+    $next = $data[0];
+    $response->score = $data[1];
+    
+    // end temp
+
+    if (in_array($next, [
+        "stalemate",
+        "insufficient",
+        "w is checkmated",
+        "b is checkmated"
+    ])) {
+        $response->gameOver = $next;
+    } else {
+        $response->next = $next;
+    }
     echo(json_encode($response));
 
 ?>

@@ -175,11 +175,11 @@
         }
 
         // add en passant moves
-        if (isset($gameData->enPassant)) {
+        if (isset($gameData->enPassant) && $gameData->enPassant != false) {
             $enemyPos = $gameData->enPassant;
             if ($pos[0] == $enemyPos[0]) {
                 if ($pos[1] == $enemyPos[1] + 1 || $pos[1] == $enemyPos[1] - 1) {
-                    array_push($moves, [$pos, [$pos[0] + $dir], $enemyPos[1], "enPassant"]);
+                    array_push($moves, [$pos, [$pos[0] + $dir, $enemyPos[1]], "enPassant"]);
                 }
             }
         }

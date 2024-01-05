@@ -3,8 +3,10 @@
     function getPiecePoints($piece) {
         return [
             "-" => 0,
-            "k" => 1000, // hacky, but we'll try to maximize or minimize points in ai and this will be helpful and simple
-            "K" => -1000,
+            // "k" => 1000, // hacky, but we'll try to maximize or minimize points in ai and this will be helpful and simple
+            // "K" => -1000,
+            "k" => 0,
+            "K" => 0,
             "r" => 5,
             "R" => -5,
             "n" => 3,

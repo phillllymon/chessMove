@@ -43,9 +43,10 @@
             [$kingPos[0], $kingPos[1]-1],
             [$kingPos[0]-1, $kingPos[1]+1],
             [$kingPos[0]-1, $kingPos[1]],
-            [$kingPos[0]-1, $kingPos[1]+1]
+            [$kingPos[0]-1, $kingPos[1]-1]
         ] as $adjPos) {
             if (posOnBoard($adjPos)) {
+
                 if ($gameData->grid[$adjPos[0]][$adjPos[1]] == $enemyKing) {
                     return true;
                 }
@@ -145,8 +146,10 @@
             [$dir, -1]
         ] as $step) {
             $enemyPos = [$kingPos[0] + $step[0], $kingPos[1] + $step[1]];
-            if ($gameData->grid[$enemyPos[0]][$enemyPos[1]] == $enemy) {
-                return true;
+            if (posOnBoard($enemyPos)) {
+                if ($gameData->grid[$enemyPos[0]][$enemyPos[1]] == $enemy) {
+                    return true;
+                }
             }
         }
 
