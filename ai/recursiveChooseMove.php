@@ -46,6 +46,17 @@
             return $gameData->score;
         }
         $moves = getAllMoves($gameData);
+        if (count($moves) == 0) {
+            if (kingInCheck($gameData, $gameData->turn)) {
+                if ($gameData->turn == "w") {
+                    return -1000;
+                } else {
+                    return 1000;
+                }
+            } else {
+                return 0;
+            }
+        }
         $possibleOutcomes = [];
         for ($i = 0; $i < count($moves); $i++) {
             $move = $moves[$i];
