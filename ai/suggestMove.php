@@ -14,7 +14,7 @@
         if ($move == "w is checkmated" || $move == "b is checkmated" || $move == "stalemate" || $move == "insufficient") {
             return [$move];
         } else {
-            return [makeMoveAndReturnString($gameState, $move), $gameData->score];
+            return [makeMoveAndReturnString($gameState, $move), $gameData->score, $move];
         }
     }
 

@@ -25,21 +25,24 @@
             }
         }
         $bestOutcome = $possibleOutcomes[0];
-        $bestIdx = 0;
+        $bestIdxArr = [0]; // collect equivalent outcomes in an array to return random one
         for ($i = 0; $i < count($possibleOutcomes); $i++) {
+            if ($possibleOutcomes[$i] == $bestOutcome && !in_array($i, $bestIdxArr)) {
+                array_push($bestIdxArr, $i);
+            }
             if ($gameData->turn == "w") {
                 if ($possibleOutcomes[$i] > $bestOutcome) {
                     $bestOutcome = $possibleOutcomes[$i];
-                    $bestIdx = $i;
+                    $bestIdxArr = [$i];
                 }
             } else {
                 if ($possibleOutcomes[$i] < $bestOutcome) {
                     $bestOutcome = $possibleOutcomes[$i];
-                    $bestIdx = $i;
+                    $bestIdxArr = [$i];
                 }
             }
         }
-        return $moves[$bestIdx];
+        return $moves[$bestIdxArr[rand(0, count($bestIdxArr) - 1)]];
     }
     function getGameOutcome($gameData, $level, $gameOver = false) {
         if ($level == 0 || $gameOver) {

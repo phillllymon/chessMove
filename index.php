@@ -32,7 +32,7 @@
 
     
     printBoard($gameState);
-    $newBoard = suggestMoveAndReturnString($gameState, 4)[0];
+    $newBoard = suggestMoveAndReturnString($gameState, 2)[0];
     if ($newBoard == "w is checkmated" || $newBoard == "b is checkmated" || $newBoard == "stalemate" || $newBoard == "insufficient") {
         printOnLine($newBoard);
     } else {

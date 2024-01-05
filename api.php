@@ -19,8 +19,11 @@
 
     // temp
     $data = suggestMoveAndReturnString($inputs->gameState, $inputs->level);
+    $response->prev = $inputs->gameState;
     $next = $data[0];
     $response->score = $data[1];
+    $response->level = $inputs->level;
+    $response->move = $data[2];
     
     // end temp
 
