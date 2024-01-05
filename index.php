@@ -1,5 +1,13 @@
 <?php
     include_once("ai/suggestMove.php");
+    include_once("ai/util/moveValid.php");
+
+
+
+    $move1 = [[1, 2], [4, 5]];
+    $move2 = [[1, 2], [4, 5], "castle"];
+
+    printOnLine(compareArrays($move1, $move2));
 
 
 
@@ -38,10 +46,6 @@
     } else {
         printBoard($newBoard);
     }
-    // printBoard(suggestMoveAndReturnString($gameState));
-
-    // printBoard($gameState);
-    // suggestMove($gameState);
 
     echo("\n");
     echo("\n");
