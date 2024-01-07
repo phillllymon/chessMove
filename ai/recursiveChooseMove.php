@@ -9,13 +9,17 @@
 
     function recursiveChooseMove($gameData, $moves, $level) {
         if ($level < 1) {
-            return $moves[0];
+            return $moves[rand(0, count($moves) - 1)];
         }
+
+        // temporary - opportunity to improve algorithm here
+        if ($level > 4) {
+            return recursiveChooseMove($gameData, $moves, 4);
+        }
+        
         $possibleOutcomes = [];
         for ($i = 0; $i < count($moves); $i++) {
-        // for ($i = 0; $i < count([[[3, 4], [0, 4]]]); $i++) {
             $move = $moves[$i];
-            // $move = [[3, 4], [0, 4]];
             $dummyGame = copyGame($gameData);
             makeMove($dummyGame, $move, true);
             if (isset($dummyGame->gameOver)) {
@@ -44,6 +48,7 @@
         }
         return $moves[$bestIdxArr[rand(0, count($bestIdxArr) - 1)]];
     }
+
     function getGameOutcome($gameData, $level, $gameOver = false) {
         if ($level == 0 || $gameOver) {
             return $gameData->score;
