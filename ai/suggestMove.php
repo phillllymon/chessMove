@@ -22,7 +22,6 @@
         if (insufficientMaterial($gameData)) {
             return "insufficient";
         }
-
         $allMoves = getAllMoves($gameData);
 
         if (count($allMoves) == 0) {
@@ -58,7 +57,7 @@
                 }
             }
         }
-        
+
         // remove moves that don't get king out of check (pinned pieces already won't move & king won't move into check if not already)
         if (kingInCheck($gameData, $gameData->turn)) {
             $allGoodMoves = [];
@@ -81,7 +80,7 @@
                         [$newKingPos[0], $newKingPos[1]-1],
                         [$newKingPos[0]-1, $newKingPos[1]+1],
                         [$newKingPos[0]-1, $newKingPos[1]],
-                        [$newKingPos[0]-1, $newKingPos[1]+1]
+                        [$newKingPos[0]-1, $newKingPos[1]-1]
                     ] as $adjPos) {
                         if (posOnBoard($adjPos)) {
                             if ($newGrid[$adjPos[0]][$adjPos[1]] == $king) {

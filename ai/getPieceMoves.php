@@ -334,7 +334,7 @@
         } 
         foreach ($dirsWeCanMove as $dir) {
             $distance = 1;
-            while ($distance < 7) {
+            while ($distance < 8) {
                 $dest = [$pos[0] + ($distance * $dir[0]), $pos[1] + ($distance * $dir[1])];
                 if (!posOnBoard($dest)) {
                     break;
